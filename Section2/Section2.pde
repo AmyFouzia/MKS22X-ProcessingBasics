@@ -34,14 +34,24 @@ void setup() {
   etc.
 */
 void gasket(int levels, float v1x, float v1y, float v2x, float v2y, float v3x, float v3y) {
-    if (levels == 1){
-      fill(255, 0, 0);
-      triangle(30, 550, 400, 20, 750, 550);
-    }
+        fill(255, 0, 0);
+        stroke(0);
+        
+        if (levels > 0){
+          gasket(levels-1,v1x,v1y,v1x+(v2x-v1x)/2.0,v2y,v1x+(v3x-v1x)/2.0,v3y+(v1y-v3y)/2.0);
+          gasket(levels-1,v1x+(v2x-v1x)/2.0,v1y,v2x,v2y,v2x-(v2x-v3x)/2.0,v3y+(v2y-v3y)/2.0);
+          gasket(levels-1,v1x+(v3x-v1x)/2.0,v3y+(v1y-v3y)/2.0,v2x-(v2x-v3x)/2.0,v3y+(v2y-v3y)/2.0,v3x,v3y);
+        }
+       
+        line(v1x,v1y,v2x,v2y);
+        line(v2x,v2y,v3x,v3y);
+        line(v3x,v3y,v1x,v1y);
+      
+    
 }
 
 void draw() { 
-  background(50);  
+  background(100);  
   
   fill(255);
   text("Click the mouse to increase levels, press a key to decrease levles",20,20);
