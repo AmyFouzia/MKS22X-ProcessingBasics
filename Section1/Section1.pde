@@ -22,10 +22,12 @@ class Visualizer {
     this.y = y;
     values = new float[40];
     speeds = new float[40];
+    
     for (int i = 0; i < values.length; i++) {
       values[i] = random(-99, 99);
       speeds[i] = random(2);
     }
+    
   }
 
   void display() {
@@ -47,15 +49,23 @@ class Visualizer {
 
     //???WRITE THIS METHOD FIRST!!!
     //THESE ARE WRONG: They just illustrate how they could look
-    for(int i = 0; i < values.length - 1; i++){
-      if (values[i] > 0){
-        fill(255, 0, 0);
-        rect(x+(i*(400/(values.length-1))), y+100, (400/(values.length-1)), values[i]);
+    float mov = 0;
+    
+    for (int i = 0; i < values.length; i++) {
+      if (values[i] >= 50){
+        float track = 50 - (values[i] - 50);
+        track = track * 5.1;
+        fill(track, 255, 0);
       }
-      if (values[i] < 0){
-        fill(0, 255, 0);
-        rect(x+(i*(400/(values.length-1))), y+100, (400/(values.length-1)), values[i]);
+      
+      else if (values[i] < 50 && values[i] >= -100){
+        float track = values[i] + 100;
+        track = (track * 1.7);
+        fill(255,track, 0);
       }
+      
+      rect(0 + x + mov, 0 + y + (100 - values[i]), 400/values.length, values[i]);
+      mov += 400/values.length;
     }
     
 
@@ -67,15 +77,20 @@ class Visualizer {
   void update() {
     //???WRITE THIS METHOD SECOND!!!
     for (int i = 0; i < values.length; i++) {
-      values[i] += speeds[i]; //the speed updates the values. Do not touch this.
-      //??? keep them values between max/min value so they stay in the box.
-      if (values[i] > 100){
-        values[i] = random(-99, 99);
-      }
-      //??? reverse the speeds so the bar oscillates up/down when it reaches max/min
-
       
+      if (values[i] >= 100){
+         speeds[i] = speeds[i] * -1;
+       }
+       
+      if (values[i] <= -100){
+        speeds[i] = speeds[i] * -1;
+       } 
+       
+       values[i] += speeds[i];
     }
+      //the speed updates the values. Do not touch this.
+      //??? keep them values between max/min value so they stay in the box.
+      //??? reverse the speeds so the bar oscillates up/down when it reaches max/min
   }
 }
 
